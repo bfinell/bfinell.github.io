@@ -642,16 +642,17 @@ async function setRunText() {
     typewriter(["You try to run from the 404-PAGE!", "But you can't escape!", "You are trapped in the 404-PAGE untill you defeat it!"]);
 
     await sleep(11500);
-    typewriter([""])
+
+    typewriter([" "])
     document.getElementById("menu").style.opacity = "100%";
 
 }
 
 async function setPokemonText() {
-  document.getElementById("menu").style.opacity = "0%";
-  typewriter(["herr and fru kanin have fainted, you have no other fighters"]);
+    document.getElementById("menu").style.opacity = "0%";
+    typewriter(["herr and fru kanin have fainted, you have no other fighters"]);
     sleep(5000);
-    typewriter([""])
+    typewriter([" "])
     document.getElementById("menu").style.opacity = "100%";
 }
 const items = {
