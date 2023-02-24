@@ -30,7 +30,7 @@ var attackType = "BUG"
 var menuKeyUp = false
 var donkeroIteration = 0
 var strongerPlaying = false
-var donkeroStringArr = ["Albin takes another sip of donkero!", "Albin drinks more...", "Slow down Albin!", "Albin takes it easy with the drinking", "NOOO Albin! I SAID SLOW DOWN! THIS WILL END BADLY!", "I WON'T CARRY YOU HOME WHEN YOU PASS OUT!", "...", "Here's the reason for the donkero prohibition", "Albin fainted!     You take him to TYKS!"]
+var donkeroStringArr = ["Albin takes another sip of donkero!", "Albin drinks more...", "Slow down Albin!", "Albin take it easy with the drinking", "NOOO Albin! I SAID SLOW DOWN! THIS WILL END BADLY!", "I WON'T CARRY YOU HOME WHEN YOU PASS OUT!", "...", "Here's the reason for the donkero prohibition", "Albin fainted!     You take him to TYKS!"]
 // disable arrowkey scroll
 window.addEventListener('load', function () {
     document.getElementById("four").style.opacity = "100%";
@@ -142,7 +142,7 @@ const animatedDonkero = document.querySelector(".donkero");
 animatedDonkero.addEventListener("animationend", function (ev) {
   if (ev.animationName === "drink") {
     document.getElementById("donkero").style.animation = 'none';
-    document.getElementById("donkero").style.animation = null; 
+    document.getElementById("donkero").style.animation = null;
     openMainMenu();
     donkeroIteration = donkeroIteration +1;
   }
@@ -320,7 +320,7 @@ function buttonAPress() {
         $(document).on("keyup", function (event) {
             let keycode = event.keyCode ? event.keyCode : event.which;
                 if (keycode == "88" ) {
-                    
+
                     menuKeyUp = true
             }
         });
@@ -334,7 +334,7 @@ function buttonAPress() {
         $(document).on("keyup", function (event) {
             let keycode = event.keyCode ? event.keyCode : event.which;
                 if (keycode == "88" ) {
-                    
+
                     menuKeyUp = true
             }
         });
@@ -644,7 +644,7 @@ const items = {
   },
   schilkin: {
       name: 'Schilkin',
-      messages: ['Albin drank Schilkin!','SPEED UP!', 'Feels like silliz' ]
+      messages: ['Albin drank Schilkin!','Balmers peak intensifies', 'Feels like silliz' ]
   },
   cuzziWater: {
       name: 'Cuzzi water',
