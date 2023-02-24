@@ -314,6 +314,8 @@ function buttonAPress() {
         if (JSON.stringify(SelectedMainMenuButton) === JSON.stringify([1,1])) {
             // run
 
+            setRunText()
+
         }
     }
     if (gameState == "ITEMMENU" ) {
@@ -330,6 +332,7 @@ function buttonAPress() {
         }
     }
     }
+
     if (gameState == "FIGHTMENU" ) {
         $(document).on("keyup", function (event) {
             let keycode = event.keyCode ? event.keyCode : event.which;
@@ -625,6 +628,18 @@ function setItemText(index) {
     }
     waitingForNextLine = false;
 }
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function setRunText() {
+    document.getElementById("menu").style.opacity = "0%";
+    typewriter(["You try to run from the 404-PAGE!", "But you can't escape!", "You are trapped in the 404-PAGE forever!"]);
+
+    await sleep(10000);
+    document.getElementById("menu").style.opacity = "100%";
+
+}
 const items = {
   korv: {
       name: 'TFIF korv',
@@ -660,7 +675,7 @@ const attacks = {
   stronger: {
       name: 'Stronger',
       messages: ['Albin used Stronger!' , 'Date takeover in 1 minute!', 'Music is playing!' ,'Albin feels pumped up!' ],
-      attackType: "BUG"
+      attackType: "PSYCHIC"
   },
 
   donkero: {
