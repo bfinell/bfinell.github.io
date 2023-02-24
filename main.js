@@ -648,8 +648,8 @@ async function setRunText() {
 }
 
 async function setPokemonText() {
-    document.getElementById("menu").style.opacity = "0%";
-    typewriter(["herr and fru kanin have fainted, you have no other fighters"]);
+  document.getElementById("menu").style.opacity = "0%";
+  typewriter(["herr and fru kanin have fainted, you have no other fighters"]);
     sleep(5000);
     typewriter([""])
     document.getElementById("menu").style.opacity = "100%";
