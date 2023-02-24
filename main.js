@@ -24,7 +24,13 @@ var fourPressed = true;
 var releaseAlbin = false;
 var gameState = 'INTRO'
 var itemIndex = 0
+var fightIndex = 0
 var SelectedMainMenuButton = [0,0]
+var attackType = "BUG"
+var menuKeyUp = false
+var donkeroIteration = 0
+var strongerPlaying = false
+var donkeroStringArr = ["Albin takes another sip of donkero!", "Albin drinks more...", "Slow down Albin!", "Albin takes it easy with the drinking", "NOOO Albin! I SAID SLOW DOWN! THIS WILL END BADLY!", "I WON'T CARRY YOU HOME WHEN YOU PASS OUT!", "...", "Here's the reason for the donkero prohibition", "Albin fainted!     You take him to TYKS!"]
 // disable arrowkey scroll
 window.addEventListener('load', function () {
     document.getElementById("four").style.opacity = "100%";
@@ -67,6 +73,79 @@ if (keycode == "38") {
 if (keycode == "37") {
     buttonLeftPress();
 }
+});
+const animatedtransitionEnd = document.querySelector(".transition");
+animatedtransitionEnd.addEventListener("animationend", function (ev) {
+  if (ev.animationName === "setVisible") {
+    document.getElementById("textBox").style.color = "white";
+    document.getElementById("textBox").style.zIndex = "200";
+    typewriter(["Albin till TYKS:sen, weeuueeuueeuu!"])
+  }
+});
+
+const animatedGlas = document.querySelector(".glas");
+animatedGlas.addEventListener("animationend", function (ev) {
+  if (ev.animationName === "setVisible") {
+    typewriter(["Albin takes a glass..."])
+    setDonkeroTime();
+    document.getElementById("glas").style.opacity = "100%";
+    document.getElementById("lonkero").style.animation = "setVisible 1s";
+  }
+});
+
+const animatedLonkero = document.querySelector(".lonkero");
+animatedLonkero.addEventListener("animationend", function (ev) {
+  if (ev.animationName === "setVisible") {
+    document.getElementById("lonkero").style.opacity = "100%";
+    document.getElementById("lonkero").style.animation = "pour ease-out 3s";
+    document.getElementById("glas").style.animation = "setInvisible 3s";
+    document.getElementById("donkero").style.animation = "setVisible 3s";
+  }
+  if (ev.animationName === "pour") {
+    typewriter(["...and pours up a lonkero!"])
+    document.getElementById("glas").style.opacity = "0%";
+    document.getElementById("donkero").style.opacity = "100%";
+    document.getElementById("lonkero").style.transform = "rotate(-145deg)"
+    document.getElementById("lonkero").style.animation = "liftUp ease-in-out 3s";
+  }
+  if (ev.animationName === "liftUp") {
+    document.getElementById("lonkero").style.transform = " rotate(-145deg)"
+    document.getElementById("lonkero").style.animation = "throw ease-in-out 1s";
+  }
+  if (ev.animationName === "throw") {
+    document.getElementById("lonkero").style.opacity = "0%";
+    document.getElementById("kossu").style.animation = "setVisible 1s";
+  }
+});
+const animatedKossu = document.querySelector(".kossu");
+animatedKossu.addEventListener("animationend", function (ev) {
+  if (ev.animationName === "setVisible") {
+    typewriter(["Albin adds four shots of vodka!"])
+    document.getElementById("kossu").style.opacity = "100%";
+    document.getElementById("kossu").style.animation = "pour ease-out 3s";
+  }
+  if (ev.animationName === "pour") {
+    document.getElementById("kossu").style.transform = "rotate(-145deg)"
+    document.getElementById("kossu").style.animation = "liftUp ease-in-out 3s";
+  }
+  if (ev.animationName === "liftUp") {
+    document.getElementById("kossu").style.transform = "rotate(-145deg)"
+    document.getElementById("kossu").style.animation = "putDown ease-in-out 3s, setInvisible ease-in-out 3s";
+  }
+  if (ev.animationName === "setInvisible") {
+    typewriter(["Albin enjoys a sip of donkero!"])
+    document.getElementById("kossu").style.opacity = "0%";
+    document.getElementById("donkero").style.animation = "drink ease-in-out 7s";
+  }
+});
+const animatedDonkero = document.querySelector(".donkero");
+animatedDonkero.addEventListener("animationend", function (ev) {
+  if (ev.animationName === "drink") {
+    document.getElementById("donkero").style.animation = 'none';
+    document.getElementById("donkero").style.animation = null; 
+    openMainMenu();
+    donkeroIteration = donkeroIteration +1;
+  }
 });
 
 const animatedExclamation = document.querySelector(".exclamation");
@@ -136,10 +215,13 @@ animatedEnemy.addEventListener("animationend", function (ev) {
 });
 
 function playStronger() {
-  sus.loop = false;
-  sus.play();
-  sus.addEventListener("ended", function () {
-    sus.currentTime = 0;
+    if (!strongerPlaying){
+        strongerPlaying = true
+    openMainMenu()
+    playButtonPressSound()
+    menuKeyUp = false
+    battleTheme.pause();
+    battleTheme.volume = 0;
     strongerIntro.loop = false;
     strongerIntro.play();
     strongerIntro.addEventListener("ended", function () {
@@ -147,7 +229,7 @@ function playStronger() {
       stronger.loop = true;
       stronger.play();
     });
-  });
+}
 }
 function playBattleTheme() {
     pressAB.loop = false;
@@ -219,6 +301,7 @@ function buttonAPress() {
     }
     if (gameState == "MAINMENU") {
         if (JSON.stringify(SelectedMainMenuButton) === JSON.stringify([0,0])) {
+            openFightMenu()
             // fight
         }
         if (JSON.stringify(SelectedMainMenuButton) === JSON.stringify([1,0])) {
@@ -233,9 +316,38 @@ function buttonAPress() {
 
         }
     }
-    if (gameState == "ITEMMENU") {
+    if (gameState == "ITEMMENU" ) {
+        $(document).on("keyup", function (event) {
+            let keycode = event.keyCode ? event.keyCode : event.which;
+                if (keycode == "88" ) {
+                    
+                    menuKeyUp = true
+            }
+        });
+        if (menuKeyUp){
         {
             setItemText(itemIndex);
+        }
+    }
+    }
+    if (gameState == "FIGHTMENU" ) {
+        $(document).on("keyup", function (event) {
+            let keycode = event.keyCode ? event.keyCode : event.which;
+                if (keycode == "88" ) {
+                    
+                    menuKeyUp = true
+            }
+        });
+        if (menuKeyUp){
+            if (!strongerPlaying){
+            if (fightIndex == 0){
+                playStronger()
+            }
+        }
+
+            if (fightIndex == 1){
+                makeDonkero()
+            }
         }
     }
 }
@@ -243,7 +355,7 @@ function buttonBPress() {
     if (gameState == "INTRO") {
         nextWord()
     }
-    if (gameState == "ITEMMENU") {
+    if (gameState == "ITEMMENU" || gameState == "FIGHTMENU") {
         openMainMenu()
     }
 }
@@ -256,6 +368,15 @@ function buttonDownPress() {
         if (itemIndex<  Object.keys(items).length - 1){
             itemIndex = itemIndex +1;
             document.getElementById("itemMenuArrow").style.top = ((2 * itemIndex) + 7.6) + "vw";
+        }
+
+
+    }
+    if (gameState == "FIGHTMENU") {
+        if (fightIndex<  Object.keys(attacks).length - 1){
+            fightIndex = fightIndex +1;
+            document.getElementById("fightMenuArrow").style.top = ((2 * fightIndex) + 30) + "vw";
+            document.getElementById("moveType").innerHTML = attacks[Object.keys(attacks)[fightIndex]].attackType;
         }
 
 
@@ -276,6 +397,14 @@ function buttonUpPress() {
         if (itemIndex> 0){
             itemIndex = itemIndex - 1;
             document.getElementById("itemMenuArrow").style.top = ((2 * itemIndex) + 8) + "vw";
+        }
+
+    }
+    if (gameState == "FIGHTMENU") {
+        if (fightIndex> 0){
+            fightIndex = fightIndex - 1;
+            document.getElementById("fightMenuArrow").style.top = ((2 * fightIndex) + 30) + "vw";
+            document.getElementById("moveType").innerHTML = attacks[Object.keys(attacks)[fightIndex]].attackType;
         }
 
     }
@@ -368,6 +497,7 @@ function openMainMenu() {
     if (!firstTimeMenu){
         playButtonPressSound()
     }
+    menuKeyUp = false;
     firstTimeMenu = false
     typewriter([" "]);
     document.getElementById("menu").style.opacity = "100%";
@@ -375,13 +505,22 @@ function openMainMenu() {
     document.getElementById("itemMenu").style.opacity = "0%";
     document.getElementById("itemMenuArrow").style.opacity = "0%";
     document.getElementById("itemList").style.opacity = "0%";
+    document.getElementById("fightMenu").style.opacity = "0%";
+    document.getElementById("fightMenuArrow").style.opacity = "0%";
+    document.getElementById("fightList").style.opacity = "0%";
+    document.getElementById("moveType").style.opacity = "0%";
     gameState = 'MAINMENU'
   }
 
 function openFightMenu(){
     playButtonPressSound()
     document.getElementById("menu").style.opacity = "0%";
+    document.getElementById("menuArrow").style.opacity = "0%";
     document.getElementById("fightMenu").style.opacity = "100%";
+    document.getElementById("fightMenuArrow").style.opacity = "100%";
+    document.getElementById("fightList").style.opacity = "100%";
+    document.getElementById("moveType").style.opacity = "100%";
+    document.getElementById("moveType").innerHTML = attacks[Object.keys(attacks)[fightIndex]].attackType;
     gameState = 'FIGHTMENU'
 }
 
@@ -390,7 +529,7 @@ function openRunMenu(){
     document.getElementById("menu").style.opacity = "0%";
     typewriter([" "]);
 
-    typewriter("You can't run from a 404-PAGE!");
+    typewriter(["You can't run from a 404-PAGE!"]);
 }
 
 function openItemMenu(){
@@ -413,6 +552,70 @@ function openPokemonMenu(){
     document.getElementById("pokemonMenu").style.opacity = "100%";
     // fru och herrkanin, rosaflamingo, drickamaskin, grillen och albin
     gameState = 'POKEMONMENU'
+}
+
+function makeDonkero(){
+    setDonkeroTime()
+    playButtonPressSound()
+    gameState = "DONKEROTIME"
+    if (donkeroIteration == 0){
+        document.getElementById("glas").style.animation = "setVisible 1s";
+    }
+    if (donkeroIteration == 1){
+        document.getElementById("donkero").style.animation = "drink ease-in-out 5s";
+        typewriter([donkeroStringArr[donkeroIteration-1]])
+    }
+    if (donkeroIteration == 2){
+        document.getElementById("donkero").style.animation = "drink ease-in-out 3s";
+        typewriter([donkeroStringArr[donkeroIteration-1]])
+    }
+    if (donkeroIteration == 3){
+        document.getElementById("donkero").style.animation = "drink ease-in-out 3 1s";
+        typewriter([donkeroStringArr[donkeroIteration-1]])
+    }
+    if (donkeroIteration == 4){
+        document.getElementById("donkero").style.animation = "drink ease-in-out 1 5s";
+        typewriter([donkeroStringArr[donkeroIteration-1]])
+    }
+    if (donkeroIteration == 5){
+        document.getElementById("donkero").style.animation = "drink ease-in-out 7 1s";
+        typewriter([donkeroStringArr[donkeroIteration-1]])
+    }
+    if (donkeroIteration == 6){
+        document.getElementById("donkero").style.animation = "drink ease-in-out 10 0.5s";
+        typewriter([donkeroStringArr[donkeroIteration-1]])
+    }
+    if (donkeroIteration == 7){
+        document.getElementById("donkero").style.animation = "drink ease-in-out 7 1s";
+        document.getElementById("kossu").style.transformOrigin = "top center";
+        document.getElementById("kossu").style.opacity = "100%";
+        document.getElementById("kossu").style.opacity = "100%";
+        document.getElementById("kossu").style.right = "66%";
+        document.getElementById("kossu").style.top = "19vw";
+        document.getElementById("kossu").style.animation = "supa ease-in-out infinite 1s";
+        typewriter([donkeroStringArr[donkeroIteration-1]])
+    }
+    if (donkeroIteration == 8){
+        document.getElementById("donkero").style.animation = "drink ease-in-out 7 1s";
+        typewriter([donkeroStringArr[donkeroIteration-1]])
+    }
+    if (donkeroIteration > 8){
+        gameState = "END"
+        battleTheme.pause();
+        battleTheme.volume = 0;
+        stronger.pause();
+        stronger.volume = 0;
+        document.getElementById("transition").style.animation = "setVisible linear 8s";
+        document.getElementById("transition").style.width = "50vw";
+        typewriter([donkeroStringArr[8]])
+    }
+
+}
+function setDonkeroTime() {
+    document.getElementById("fightMenu").style.opacity = "0%";
+    document.getElementById("fightMenuArrow").style.opacity = "0%";
+    document.getElementById("fightList").style.opacity = "0%";
+    document.getElementById("moveType").style.opacity = "0%";
 }
 
 function setItemText(index) {
@@ -443,32 +646,34 @@ const items = {
       name: 'Schilkin',
       messages: ['Albin drank Schilkin!','SPEED UP!', 'Feels like silliz' ]
   },
-  cuzzi_water: {
-    name: 'Cuzzi Water',
-    message: ['Albin drank cuzzi water', 'Albin feels regrets', 'Feels sick _(´ཀ`」 ∠)_']
+  cuzziWater: {
+      name: 'Cuzzi water',
+      messages: ['Albin drank cuzzi water!', 'Albin feels regrets!', '_(´ཀ`」 ∠)_' ]
   },
   hartsport: {
-    name: 'Hartsport',
-    message: ['Albin drank hartsport', 'Cures Krapula', 'would taste great with Schilkin']
+      name: 'Hartsport',
+      messages: ['Albin drank hartsport!', 'Cures Krapula!', 'Would taste great with Schilkin' ]
   }
 }
 
 const attacks = {
   stronger: {
-      name: 'stronger',
-      messages: ['Date takeover in 1 minute!', 'Albin feels pumped up' ]
+      name: 'Stronger',
+      messages: ['Albin used Stronger!' , 'Date takeover in 1 minute!', 'Music is playing!' ,'Albin feels pumped up!' ],
+      attackType: "BUG"
   },
 
   donkero: {
     name: 'Donkero',
-    message: ['Albin mixes donkero', 'Albin drinks donkero', 'Albin feels slightly tipsy']
+    message: ['Albin mixes donkero', 'Albin drinks donkero', 'Albin feels slightly tipsy'],
+    attackType: "POISON"
   },
 
 }
 
 const run = {
-name: 'run',
-message: ['You try to run away','An exit is not found', '404 is still present']
+    name: 'Run',
+    message: ['You try to run away','An exit is not found', '404 is still present']
 
 }
 
@@ -484,4 +689,13 @@ Object.keys(items).forEach((item)=>{
   let li = document.createElement("li");
   li.innerText = items[item].name;
   list.appendChild(li);
+})
+
+let fightList = document.getElementById("fightList");
+
+Object.keys(attacks).forEach((item)=>{
+  let li = document.createElement("li");
+  li.classList.add('listpadding')
+  li.innerText = attacks[item].name;
+  fightList.appendChild(li);
 })

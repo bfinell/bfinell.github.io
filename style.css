@@ -19,6 +19,14 @@
     right: 1.2%;
     opacity: 0%;
   }
+  .fightMenu {
+    z-index: 3;
+    position: absolute;
+    width: 97.53%;
+    bottom: 1.4%;
+    right: 1.2%;
+    opacity: 0%;
+  }
   .menuArrow{
     z-index: 16;
     position: absolute;
@@ -27,16 +35,24 @@
     right: 51%;
     opacity: 0%;
   }
+  .fightMenuArrow{
+    z-index: 16;
+    position: absolute;
+    width: 3.08%;
+    top: 30vw;
+    right: 70%;
+    opacity: 0%;
+  }
   .itemMenuArrow{
     z-index: 16;
     position: absolute;
     width: 3.08%;
     top: 7.6vw;
     right: 70%;
-    opacity: 100%;
+    opacity: 0%;
   }
   .itemMenu{
-    z-index: 0;
+    z-index: 3;
     position: absolute;
     width: 77.77%;
     bottom: 28.5%;
@@ -44,7 +60,7 @@
     opacity: 0%;
   }
   .itemList{
-    z-index: 0;
+    z-index: 3;
     position: absolute;
     width: 77.77%;
     top: 19%;
@@ -56,11 +72,68 @@
     padding: 0;
     margin: 0;
   }
+  .lonkero {
+    z-index: 16;
+    position: absolute;
+    width: 4.8%;
+    top: 16vw;
+    right: 57%;
+    opacity: 0%;
+}
+.kossu {
+    z-index: 0;
+    position: absolute;
+    width: 6%;
+    top: 14vw;
+    right: 54%;
+    opacity: 0%;
+}
+  .donkero {
+    z-index: 0;
+    position: absolute;
+    width: 8.08%;
+    top: 20vw;
+    right: 59%;
+    opacity: 0%;
+}
+.glas {
+    z-index: 16;
+    position: absolute;
+    width: 8.08%;
+    top: 20vw;
+    right: 59%;
+    opacity: 0%;
+}
+  .listpadding{
+    margin-bottom: 0.15vw;
+  }
+  .fightList{
+    z-index: 10;
+    position: absolute;
+    width: 77.77%;
+    top: 68%;
+    right: -10%;
+    opacity: 0%;
+    font-size: 2vw;
+    color: black;
+    list-style-type: none;
+  }
+  .movetype{
+    z-index: 10;
+    position: absolute;
+    width: 77.77%;
+    top: 52%;
+    left: 6%;
+    opacity: 0%;
+    font-size: 2vw;
+    color: black;
+    list-style-type: none;
+  }
   .transition {
-    z-index: 2;
+    z-index: 160;
     position: absolute;
     width: 0vw;
-    height: 40.833vw;
+    height: 40.9vw;
     margin-left: -22.5vw;
     margin-top: -22.5vw;
     left: 50%;
@@ -76,6 +149,7 @@
     right: 7%;
   }
   .four {
+    z-index: 150;
     width: 12.96%;
     top: 50%;
     left: 43.52%;
@@ -94,7 +168,7 @@
     opacity: 0%;
   }
   .intro {
-    z-index: 1;
+    z-index: 150;
     position: absolute;
     width: 45vw;
     height: 40.833vw;
@@ -170,6 +244,7 @@
     filter: opacity(0%);
   }
   .albin {
+    z-index: 1;
     top: 28.56%;
     left: 5%;
     width: 34.567901234%;
@@ -181,7 +256,7 @@
     top: 70%;
     left: 7%;
     right: 7%;
-    font-size: 2vw;
+    font-size: 1.5vw;
     line-height: 1.8;
   }
   .helpText {
@@ -287,6 +362,81 @@
     }
     to {
       transform: translate(0px);
+    }
+  }
+  @keyframes setVisible {
+    from {
+      opacity: 0%;
+    }
+    to {
+        opacity: 100%;
+    }
+  }
+  @keyframes pour {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(-145deg);
+    }
+  } 
+  @keyframes liftUp {
+    from {
+        transform: translate(0vw)  rotate(-145deg);
+      }
+      to {
+        transform: translateY(-2vw)  rotate(-145deg);
+      }
+    }
+    @keyframes throw {
+        from {
+            transform: translate(0vw) translateY(-2vw) rotate(-145deg);
+          }
+          to {
+            transform: translateX(-50vw) translateY(-50vw) rotate(360deg);
+          }
+        }
+
+        @keyframes putDown {
+            from {
+                transform: translate(0vw) translateY(-2vw)  rotate(-145deg);
+              }
+              to {
+                transform: translateY(4vw) translateX(-10vw)  rotate(0deg);
+              }
+            }
+            @keyframes setInvisible {
+                from {
+                  opacity: 100%;
+                }
+                to {
+                    opacity: 0%;
+                }
+              }
+
+@keyframes drink {
+0% {
+    transform: rotate(0);
+}
+10% {
+    transform: rotate(-10deg);
+}
+60% {
+    transform: rotate(-10deg);
+}
+100% {
+    transform: rotate(0);
+}
+}
+@keyframes supa {
+    0% {
+        transform: rotate(-145deg);
+    }
+    50% {
+        transform: rotate(-100deg);
+    }
+    100% {
+        transform: rotate(-145deg);
     }
   }
 
