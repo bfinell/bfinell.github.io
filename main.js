@@ -79,7 +79,7 @@ animatedtransitionEnd.addEventListener("animationend", function (ev) {
   if (ev.animationName === "setVisible") {
     document.getElementById("textBox").style.color = "white";
     document.getElementById("textBox").style.zIndex = "200";
-    typewriter(["Albin till TYKS:sen, weeuueeuueeuu!"])
+    typewriter(["Och så kom ambulansen,  Weeuueeuueeuu!   Albin till TYKS:sen"])
   }
 });
 
