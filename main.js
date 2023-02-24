@@ -306,6 +306,7 @@ function buttonAPress() {
         }
         if (JSON.stringify(SelectedMainMenuButton) === JSON.stringify([1,0])) {
             // pokemon
+            setPokemonText()
         }
         if (JSON.stringify(SelectedMainMenuButton) === JSON.stringify([0,1])) {
             //item
@@ -628,17 +629,30 @@ function setItemText(index) {
     }
     waitingForNextLine = false;
 }
+
+
+
+
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async function setRunText() {
     document.getElementById("menu").style.opacity = "0%";
-    typewriter(["You try to run from the 404-PAGE!", "But you can't escape!", "You are trapped in the 404-PAGE forever!"]);
+    typewriter(["You try to run from the 404-PAGE!", "But you can't escape!", "You are trapped in the 404-PAGE untill you defeat it!"]);
 
-    await sleep(10000);
+    await sleep(11500);
+    typewriter([""])
     document.getElementById("menu").style.opacity = "100%";
 
+}
+
+async function setPokemonText() {
+    document.getElementById("menu").style.opacity = "0%";
+    typewriter(["herr and fru kanin have fainted, you have no other fighters"]);
+    sleep(5000);
+    typewriter([""])
+    document.getElementById("menu").style.opacity = "100%";
 }
 const items = {
   korv: {
