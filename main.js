@@ -1,19 +1,17 @@
 // opening animations
-var pressAB = new Audio("https://sndup.net/y7cs/d");
+var pressAB = new Audio("Audio\\SFX_PRESS_AB.wav");
 pressAB.volume = 0.5;
-var albinCry = new Audio("https://sndup.net/wg5y/d");
-var enemyCry = new Audio("https://sndup.net/kbn2/d");
-var pokeballPoof = new Audio("https://sndup.net/xn3q/d");
-var sus = new Audio("https://dl.sndup.net/gmjn/susmid.mp3");
-var battle = new Audio("https://dl.sndup.net/tbyj/wild-pokemon-battlemid.mp3");
+var albinCry = new Audio("Audio\\SFX_CRY_17.wav");
+var enemyCry = new Audio("Audio\\SFX_CRY_20.wav");
+var pokeballPoof = new Audio("Audio\\SFX_BALL_POOF.wav");
 var strongerIntro = new Audio(
-  "https://dl.sndup.net/2q84/Stonebank-Stronger-ft-Emel-intro.mp3"
+  "Audio\\Stonebank-Stronger-ft-Emel-intro.mp3"
 );
 var stronger = new Audio(
-  "https://dl.sndup.net/xhtg/Stonebank-Stronger-ft-Emel.mp3"
+  "Audio\\Stonebank-Stronger-ft-Emel.mp3"
 );
 var battleTheme = new Audio(
-  "https://vgmsite.com/soundtracks/pokemon-red-green-blue-yellow/mbvahztywh/14%20Battle%21%20%28Wild%20Pok%C3%A9mon%29.mp3"
+  "Audio\\14 Battle! (Wild Pokémon).mp3"
 );
 var firstTimeMenu = true;
 var nextLine = false;
@@ -30,14 +28,14 @@ var attackType = "BUG"
 var menuKeyUp = false
 var donkeroIteration = 0
 var strongerPlaying = false
-var donkeroStringArr = ["Albin takes another sip of donkero!", "Albin drinks more...", "Slow down Albin!", "Albin take it easy with the drinking", "NOOO Albin! I SAID SLOW DOWN! THIS WILL END BADLY!", "I WON'T CARRY YOU HOME WHEN YOU PASS OUT!", "...", "Here's the reason for the donkero prohibition", "Albin fainted!     You take him to TYKS!"]
-// disable arrowkey scroll
+var donkeroStringArr = ["Albin takes another sip of donkero!", "Albin drinks more...", "Slow down Albin!", "Albin take it easy with the drinking!", "NOOO Albin! I SAID SLOW DOWN! THIS WILL END BADLY!", "I WON'T CARRY YOU HOME WHEN YOU PASS OUT!", "...", "Here's the reason for the donkero prohibition", "Albin fainted!     You take him to TYKS!"]
+
 window.addEventListener('load', function () {
     document.getElementById("four").style.opacity = "100%";
     document.getElementById("loading").style.opacity = "0%";
     fourPressed = false
   })
-
+// disable arrowkey scroll
 window.addEventListener("keydown", function(e) {
     if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
         e.preventDefault();
@@ -142,7 +140,7 @@ const animatedDonkero = document.querySelector(".donkero");
 animatedDonkero.addEventListener("animationend", function (ev) {
   if (ev.animationName === "drink") {
     document.getElementById("donkero").style.animation = 'none';
-    document.getElementById("donkero").style.animation = null;
+    document.getElementById("donkero").style.animation = null; 
     openMainMenu();
     donkeroIteration = donkeroIteration +1;
   }
@@ -314,8 +312,7 @@ function buttonAPress() {
         }
         if (JSON.stringify(SelectedMainMenuButton) === JSON.stringify([1,1])) {
             // run
-
-            setRunText()
+            setRunMode()
 
         }
     }
@@ -323,7 +320,7 @@ function buttonAPress() {
         $(document).on("keyup", function (event) {
             let keycode = event.keyCode ? event.keyCode : event.which;
                 if (keycode == "88" ) {
-
+                    
                     menuKeyUp = true
             }
         });
@@ -333,12 +330,11 @@ function buttonAPress() {
         }
     }
     }
-
     if (gameState == "FIGHTMENU" ) {
         $(document).on("keyup", function (event) {
             let keycode = event.keyCode ? event.keyCode : event.which;
                 if (keycode == "88" ) {
-
+                    
                     menuKeyUp = true
             }
         });
@@ -463,40 +459,6 @@ function startGame() {
       }
 }
 
-
-
-function fightMove(){
-    if (startFight){
-        openFightMenu()
-        playButtonPressSound()
-        startFight = false;
-    }
-}
-
-function runMove(){
-    if (startFight){
-        openRunMenu()
-        playButtonPressSound()
-        startFight = false;
-    }
-}
-
-function itemMove(){
-    if (startFight){
-        openItemMenu()
-        playButtonPressSound()
-        startFight = false;
-    }
-}
-
-function pokemonMove(){
-    if (startFight){
-        openPokemonMenu()
-        playButtonPressSound()
-        startFight = false;
-    }
-}
-
 function openMainMenu() {
     if (!firstTimeMenu){
         playButtonPressSound()
@@ -556,6 +518,17 @@ function openPokemonMenu(){
     document.getElementById("pokemonMenu").style.opacity = "100%";
     // fru och herrkanin, rosaflamingo, drickamaskin, grillen och albin
     gameState = 'POKEMONMENU'
+}
+
+function setRunMode(){
+    document.getElementById("menu").style.opacity = "0%";
+    document.getElementById("menuArrow").style.opacity = "0%";
+    typewriter(["Albin asks if he can leave!", "...",  "There's no response!"])
+    gameState = "SHOWINGRUNTEXT"
+    setTimeout(() => {
+        openMainMenu()
+      }, "6500")
+      
 }
 
 function makeDonkero(){
@@ -623,38 +596,35 @@ function setDonkeroTime() {
 }
 
 function setItemText(index) {
-    if (waitingForNextLine) {
-        var mess = items[Object.keys(items)[index]].messages
-        typewriter(mess);
-    }
-    waitingForNextLine = false;
+    playButtonPressSound()
+          var mess = items[Object.keys(items)[index]].messages
+          typewriter(mess)
+          delete items[Object.keys(items)[index]]
+          document.getElementById("itemList").innerHTML = "";
+          Object.keys(items).forEach((item)=>{
+            let li = document.createElement("li");
+            li.innerText = items[item].name;
+            list.appendChild(li);
+          })
+          gameState = "SHOWINGRUNTEXT"
+          document.getElementById("itemMenuArrow").style.opacity = "0%";
+          var timeoutLenght = mess.length * 3000
+          setTimeout(() => {
+              openMainMenu()
+            }, timeoutLenght)
 }
 
-
-
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function setRunText() {
+function setPokemonText(){
     document.getElementById("menu").style.opacity = "0%";
-    typewriter(["You try to run from the 404-PAGE!", "But you can't escape!", "You are trapped in the 404-PAGE untill you defeat it!"]);
-
-    await sleep(11500);
-
-    typewriter([" "])
-    document.getElementById("menu").style.opacity = "100%";
-
+    document.getElementById("menuArrow").style.opacity = "0%";
+    typewriter(["Albins friends have krapula!", "Albin is on his own!"])
+    gameState = "SHOWINGRUNTEXT"
+    setTimeout(() => {
+        openMainMenu()
+      }, "6500")
+      
 }
 
-async function setPokemonText() {
-    document.getElementById("menu").style.opacity = "0%";
-    typewriter(["herr and fru kanin have fainted, you have no other fighters"]);
-    sleep(5000);
-    typewriter([" "])
-    document.getElementById("menu").style.opacity = "100%";
-}
 const items = {
   korv: {
       name: 'TFIF korv',
@@ -666,15 +636,15 @@ const items = {
   },
   es: {
       name: 'ES',
-      messages: ['Ebin! :DD', 'Albin drang Euro Shobber! :DD','SBEED UB! :DD' ]
+      messages: ['Ebin! :DD', 'Albin drang Euro Shobber! :DD','SBEED UB! :DDDDDD' ]
   },
   tentarkiv: {
       name: 'Tentarkiv',
-      messages: ['Theres no time to study!' ]
+      messages: ["There's no time to study!" ]
   },
   schilkin: {
       name: 'Schilkin',
-      messages: ['Albin drank Schilkin!','Balmers peak intensifies', 'Feels like silliz' ]
+      messages: ['Albin drank Schilkin!','SPEED UP!', 'Feels like silliz' ]
   },
   cuzziWater: {
       name: 'Cuzzi water',
@@ -690,7 +660,7 @@ const attacks = {
   stronger: {
       name: 'Stronger',
       messages: ['Albin used Stronger!' , 'Date takeover in 1 minute!', 'Music is playing!' ,'Albin feels pumped up!' ],
-      attackType: "PSYCHIC"
+      attackType: "BUG"
   },
 
   donkero: {
@@ -699,18 +669,6 @@ const attacks = {
     attackType: "POISON"
   },
 
-}
-
-const run = {
-    name: 'Run',
-    message: ['You try to run away','An exit is not found', '404 is still present']
-
-}
-
-const pokemon = {
-fruKanin:{
-  name:'asd'
-}
 }
 
 let list = document.getElementById("itemList");
