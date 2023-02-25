@@ -26,6 +26,7 @@ var fightIndex = 0
 var SelectedMainMenuButton = [0,0]
 var attackType = "BUG"
 var menuKeyUp = false
+var fightMenuKeyUp = false
 var donkeroIteration = 0
 var strongerPlaying = false
 var donkeroStringArr = ["Albin takes another sip of donkero!", "Albin drinks more...", "Slow down Albin!", "Albin take it easy with the drinking!", "NOOO Albin! I SAID SLOW DOWN! THIS WILL END BADLY!", "I WON'T CARRY YOU HOME WHEN YOU PASS OUT!", "...", "Here's the reason for the donkero prohibition", "Albin fainted!     You take him to TYKS!"]
@@ -215,9 +216,7 @@ animatedEnemy.addEventListener("animationend", function (ev) {
 function playStronger() {
     if (!strongerPlaying){
         strongerPlaying = true
-    openMainMenu()
     playButtonPressSound()
-    menuKeyUp = false
     battleTheme.pause();
     battleTheme.volume = 0;
     strongerIntro.loop = false;
@@ -335,15 +334,15 @@ function buttonAPress() {
             let keycode = event.keyCode ? event.keyCode : event.which;
                 if (keycode == "88" ) {
                     
-                    menuKeyUp = true
+                    fightMenuKeyUp = true
             }
         });
-        if (menuKeyUp){
+        if (fightMenuKeyUp){
             if (!strongerPlaying){
             if (fightIndex == 0){
                 playStronger()
             }
-        }
+        } 
 
             if (fightIndex == 1){
                 makeDonkero()
@@ -464,6 +463,7 @@ function openMainMenu() {
         playButtonPressSound()
     }
     menuKeyUp = false;
+    fightMenuKeyUp = false;
     firstTimeMenu = false
     typewriter([" "]);
     document.getElementById("menu").style.opacity = "100%";
